@@ -7,6 +7,9 @@ param storageAccountName string
 @description('Key Vault名')
 param keyVaultName string
 
+@description('Managed Identity名')
+param managedIdentityName string
+
 // Storage
 module storage './modules/storage.bicep' = {
   name: 'storageDeployment'
@@ -21,6 +24,14 @@ module keyVault './modules/keyvault.bicep' = {
   name: 'keyVaultDeployment'
   params: {
     keyVaultName: keyVaultName
+    location: location
+  }
+}
+
+module managedIdentity './modules/managedIdentity.bicep' = {
+  name: 'managedIdentityDeployment'
+  params: {
+    managedIdentityName: managedIdentityName
     location: location
   }
 }
