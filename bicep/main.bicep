@@ -4,13 +4,12 @@ param location string = resourceGroup().location
 @description('ストレージアカウント名')
 param storageAccountName string
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
-  name: storageAccountName
-  location: location
-  sku: {
-    name: 'Standard_LRS'
+module storage './modules/storage.bicep' = {
+  name: 'storageDeployment'
+  params: {
+    storageAccountName: storageAccountName
+    location: location
   }
-  kind: 'StorageV2'
 }
 
-output storageAccountId string = storageAccount.id
+output storageAccountId string = storage.outputs.storageAccountId
